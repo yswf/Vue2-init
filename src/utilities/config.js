@@ -1,7 +1,7 @@
 // 环境参数配置
 export const axiosDefaults = {
-  developmentApi: "http://10.41.95.180:8001",
+  developmentApi: "https://api.yswf.xyz/api/private/v1/",
   productionApi: "http://10.41.95.180:8001",
-  retry: 3,
+  retry: 1,
   retryDelay: 3000,
 };

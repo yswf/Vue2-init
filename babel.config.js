@@ -1,8 +1,5 @@
 // 这是项目发布阶段需要用到babel插件
 const prodPlugins = [];
-if (process.env.NODE_ENV === "production") {
-  prodPlugins.push("transform-remove-console");
-}
 module.exports = {
   presets: ["@vue/cli-plugin-babel/preset"],
   plugins: [
@@ -16,6 +13,14 @@ module.exports = {
     ...prodPlugins,
     "@babel/plugin-syntax-dynamic-import",
   ],
+  env: {
+    development: {
+      plugins: ["dynamic-import-node"],
+    },
+    production: {
+      plugins: ["transform-remove-console"],
+    },
+  },
 };
 
 // 解决老旧浏览器兼容方法

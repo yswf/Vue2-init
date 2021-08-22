@@ -1,28 +1,23 @@
 <template>
   <div class="info">
     <h1>这里是Personal Information页面</h1>
-    <p>请求返回数据为{{ info.detail }}</p>
+    <strong>user:</strong>
+    <p>{{ userdata.username }}</p>
+    <strong>email:</strong>
+    <p>{{ userdata.email }}</p>
+    <strong>mobile:</strong>
+    <p>{{ userdata.mobile }}</p>
   </div>
 </template>
 <script>
 export default {
   data() {
-    return {
-      info: {
-        detail: "",
-      },
-    };
+    return {};
   },
-  created() {
-    this.getInfo();
-  },
-  methods: {
-    async getInfo() {
-      const { data: res } = await this.$http.get(
-        "/api/user/updatePart/z21071622/"
-      );
-      console.log(res.detail);
-      this.info = res;
+  methods: {},
+  computed: {
+    userdata() {
+      return this.$store.state.userInfo.userInfo;
     },
   },
 };

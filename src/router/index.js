@@ -7,6 +7,8 @@ const Home = () => import(/* webpackChunkName: "home" */ "../views/Home.vue");
 // Info
 const Info = () =>
   import(/* webpackChunkName: "Info" */ "../views/info/Info.vue");
+const Login = () =>
+  import(/* webpackChunkName: "Info" */ "../views/info/Login.vue");
 //ManufactureFwInfo
 const ManufactureFwInfo = () =>
   import(
@@ -18,10 +20,15 @@ const Sign = () =>
 //Manage
 const Manage = () =>
   import(/* webpackChunkName: "Manage" */ "../views/manage/manage.vue");
+//404
+const errorPage = () =>
+  import(/* webpackChunkName: "404" */ "../views/404.vue");
 Vue.use(VueRouter);
 
 const routes = [
-  { path: "/", redirect: "/index/info" },
+  { path: "/", redirect: "/login" },
+  { path: "/login", component: Login },
+  { path: "/404", component: errorPage },
   {
     path: "/index",
     component: Home,
@@ -32,6 +39,8 @@ const routes = [
       { path: "/index/manage", component: Manage },
     ],
   },
+  // 404 page must be placed at the end !!!
+  { path: "*", redirect: "/404", hidden: true },
 ];
 
 const router = new VueRouter({

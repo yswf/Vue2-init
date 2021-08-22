@@ -16,7 +16,7 @@ Vue.prototype.$http = axiosConfig;
 
 Vue.config.productionTip = false;
 
-new Vue({
+Window.vue = new Vue({
   router,
   store,
   render: (h) => h(App),

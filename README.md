@@ -1,5 +1,5 @@
 # vue2-element-init-template
-
+## 这是一个vue2 + vuex + vue-route + elementUI 初始化项目模板，方便快速构建后台管理系统
 ## Project setup
 ```
 npm install

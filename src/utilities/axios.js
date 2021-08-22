@@ -1,17 +1,23 @@
 // 导入axios
 import axios from "axios";
-// 导入NProgress包和css
+// 导入NProgress
 import NProgress from "nprogress";
 import { axiosDefaults } from "./config";
+import { Message } from "element-ui";
 // 配置axios
 // axios.defaults.baseURL = 'http://yswf.xyz:64570'
-axios.defaults.retry = axiosDefaults.retry;
-axios.defaults.retryDelay = axiosDefaults.retryDelay;
-axios.interceptors.request.use((config) => {
-  NProgress.start();
-  // 必须return
-  return config;
-});
+axios.defaults.retry = axiosDefaults.retry || 1;
+axios.defaults.retryDelay = axiosDefaults.retryDelay || 3000;
+axios.interceptors.request.use(
+  (config) => {
+    NProgress.start();
+    // 必须return
+    return config;
+  },
+  (error) => {
+    return Promise.error(error);
+  }
+);
 // 在response拦截器中隐藏进度条和处理超时请求
 function successRes(config) {
   NProgress.done();
@@ -26,11 +32,37 @@ axios.interceptors.response.use(
 
     // Set the variable for keeping track of the retry count
     config.__retryCount = config.__retryCount || 0;
-
     // Check if we've maxed out the total number of retries
     if (config.__retryCount >= config.retry) {
       // Reject with the error
       NProgress.done();
+      switch (err.response.status) {
+        case 400:
+          Message.error("Bad Request");
+          break;
+        case 401:
+          Message.error("Unauthorized");
+          break;
+        case 403:
+          Message.error("Forbidden");
+          break;
+        case 404:
+          Message.error("Not Found");
+          break;
+        case 405:
+          Message.error("Method Not Allowed");
+          break;
+        case 500:
+          Message.error("Internal Server Error");
+          break;
+        case 502:
+          Message.error("	Bad Gateway");
+          break;
+
+        default:
+          Message.error("Unknown error");
+          break;
+      }
       return Promise.reject(err);
     }
 
