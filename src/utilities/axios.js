@@ -5,7 +5,6 @@ import NProgress from "nprogress";
 import { axiosDefaults } from "./config";
 import { Message } from "element-ui";
 // 配置axios
-// axios.defaults.baseURL = 'http://yswf.xyz:64570'
 axios.defaults.retry = axiosDefaults.retry || 1;
 axios.defaults.retryDelay = axiosDefaults.retryDelay || 3000;
 axios.interceptors.request.use(

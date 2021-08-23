@@ -17,7 +17,7 @@ export default {
   methods: {},
   computed: {
     userdata() {
-      return this.$store.state.userInfo.userInfo;
+      return this.$store.state.user.userInfo;
     },
   },
 };

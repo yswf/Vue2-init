@@ -71,7 +71,7 @@ export default {
     login() {
       this.$refs.loginFormRef.validate(async (valid) => {
         if (valid) {
-          this.$store.dispatch("set_user_info", this.loginForm);
+          this.$store.dispatch("SET_USER_INFO", this.loginForm);
           // 跳转到home
           this.$router.push("/index/info");
         }
