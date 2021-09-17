@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import { ACTION_TYPE } from "../../store/userInfo/actionsTypes";
 export default {
   data() {
     return {
@@ -71,9 +72,7 @@ export default {
     login() {
       this.$refs.loginFormRef.validate(async (valid) => {
         if (valid) {
-          this.$store.dispatch("SET_USER_INFO", this.loginForm);
-          // 跳转到home
-          this.$router.push("/index/info");
+          this.$store.dispatch(ACTION_TYPE.LOAD_REQUEST, this.loginForm);
         }
       });
     },

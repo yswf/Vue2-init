@@ -1,5 +1,6 @@
 // 导入axios
 import axios from "axios";
+import qs from "qs"; //引入qs，axios在post参数时，要通过qs来格式化数据
 // 导入NProgress
 import NProgress from "nprogress";
 import { axiosDefaults } from "./config";
@@ -10,6 +11,13 @@ axios.defaults.retryDelay = axiosDefaults.retryDelay || 3000;
 axios.interceptors.request.use(
   (config) => {
     NProgress.start();
+    // qs来格式化数据
+    if (
+      config.headers["Content-Type"] == "application/x-www-form-urlencoded" &&
+      config.method == "post"
+    ) {
+      config.data = qs.stringify(config.data);
+    }
     // 必须return
     return config;
   },
@@ -20,6 +28,7 @@ axios.interceptors.request.use(
 // 在response拦截器中隐藏进度条和处理超时请求
 function successRes(config) {
   NProgress.done();
+  //  token失效在这里跳出登陆
   return config;
 }
 axios.interceptors.response.use(
@@ -35,33 +44,7 @@ axios.interceptors.response.use(
     if (config.__retryCount >= config.retry) {
       // Reject with the error
       NProgress.done();
-      switch (err.response.status) {
-        case 400:
-          Message.error("Bad Request");
-          break;
-        case 401:
-          Message.error("Unauthorized");
-          break;
-        case 403:
-          Message.error("Forbidden");
-          break;
-        case 404:
-          Message.error("Not Found");
-          break;
-        case 405:
-          Message.error("Method Not Allowed");
-          break;
-        case 500:
-          Message.error("Internal Server Error");
-          break;
-        case 502:
-          Message.error("	Bad Gateway");
-          break;
-
-        default:
-          Message.error("Unknown error");
-          break;
-      }
+      Message.error(err.message);
       return Promise.reject(err);
     }
 
